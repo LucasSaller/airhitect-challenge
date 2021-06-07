@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     background: "#443d5b",
+    position: "relative",
   },
   contact: {
     display: "flex",
@@ -31,14 +32,13 @@ const useStyles = makeStyles((theme) => ({
   map: {
     width: "40%",
     [theme.breakpoints.down("sm")]: {
-      height: 400,
+      height: 500,
     },
   },
   content: {
-    flex: 1,
     padding: 20,
     color: "#fff",
-    alignSelf: "center",
+    alignSelf: "flex-end",
   },
   leftContent: {
     display: "flex",
@@ -63,6 +63,16 @@ const useStyles = makeStyles((theme) => ({
   socialIcons: {
     display: "flex",
     gap: 12,
+  },
+  title: {
+    position: "absolute",
+    top: "8%",
+    left: "1%",
+    color: "#443d5b",
+    backgroundColor: "#fff",
+    padding: "5px 10px",
+    fontWeight: "bold",
+    [theme.breakpoints.down("sm")]: { top: "3%", left: "2%" },
   },
 }));
 const formFields = [
@@ -91,10 +101,7 @@ function Contact() {
   useEffect(() => {
     const callGoogleApi = async () => {
       const options = {};
-      const loader = new Loader(
-        "AIzaSyDY__RwJEgRdbuN8Yyv8QVew63ulASrUNA",
-        options
-      );
+      const loader = new Loader(process.env.REACT_APP_API_KEY, options);
       const location = { lat: 47.4956195, lng: 19.024983 };
       const google = await loader.load();
       const map = new google.maps.Map(document.getElementById("map"), {
@@ -113,34 +120,50 @@ function Contact() {
   return (
     <section id="Contact">
       <div className={classes.root}>
+        <h2 className={classes.title}>contact</h2>
+
         <Grid container className={classes.contactContainer}>
           <Grid item className={classes.contact} xs={12} lg={8}>
             <Grid container className={classes.div}>
-              <Grid item className={classes.content}>
+              <Grid item className={classes.content} xs={12} lg={6}>
                 <h2>Contact us via email, phone or come by into our office!</h2>
                 <Grid container spacing={2}>
-                  <Grid item className={classes.leftContent}>
+                  <Grid item className={classes.leftContent} xs={2} lg={2}>
                     <MailOutlineIcon />
                     <PhoneInTalkIcon />
                     <HomeIcon />
                   </Grid>
-                  <Grid item className={classes.leftContent}>
-                    <span>info@airhitect.com</span>
+                  <Grid item className={classes.leftContent} xs={10} lg={10}>
+                    <span>
+                      <a href="mailto:info@airhitect.com">info@airhitect.com</a>
+                    </span>
 
-                    <span>+12 34 567 890</span>
-                    <span>+12 34 567 890</span>
+                    <span>
+                      <a href="tel:+12 34 567 890">+12 34 567 890</a>
+                    </span>
+                    <span>
+                      <a href="tel:+12 34 567 890">+12 34 567 890</a>
+                    </span>
 
                     <span>1012 Budaest</span>
                     <span>Marvany utca 16</span>
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item className={classes.content}>
+              <Grid item className={classes.content} xs={12} lg={6}>
                 <div className={classes.socialIcons}>
-                  <FacebookIcon />
-                  <InstagramIcon />
-                  <LinkedInIcon />
-                  <TwitterIcon />
+                  <a href="#">
+                    <FacebookIcon />
+                  </a>
+                  <a href="#">
+                    <InstagramIcon />
+                  </a>
+                  <a href="#">
+                    <LinkedInIcon />
+                  </a>
+                  <a href="#">
+                    <TwitterIcon />
+                  </a>
                 </div>
 
                 <h5>We are hiring!</h5>
@@ -150,14 +173,21 @@ function Contact() {
                   CV and portfolio. Don't forget to write a little about
                   yourself
                 </p>
-                <span>job@airhitect.com</span>
+                <span>
+                  <a
+                    style={{ textDecoration: "underline" }}
+                    href="mailto:info@airhitect.com"
+                  >
+                    info@airhitect.com
+                  </a>
+                </span>
               </Grid>
               <form className={classes.form}>
                 <Grid container spacing={1}>
                   {formFields.map((field, index) => (
                     <Grid item key={index} xs={12}>
                       <TextField
-                        gutterBottom
+                        autoComplete="none"
                         size="small"
                         variant="filled"
                         {...field}

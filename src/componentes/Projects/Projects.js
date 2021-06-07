@@ -8,32 +8,50 @@ import Slider from "react-slick";
 import Project from "../Projects/Project";
 import nextArrow from "../../assets/Projects/next.png";
 import prevArrow from "../../assets/Projects/prev.png";
+import Modal from "@material-ui/core/Modal";
+import Backdrop from "@material-ui/core/Backdrop";
+import ModalProject from "./ModalProject";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     minHeight: "100vh",
+    position: "relative",
   },
   slide: {
     width: "100%",
     height: "100vh",
-    background: "red",
+  },
+  title: {
+    position: "absolute",
+    top: "4%",
+    left: "1%",
+    color: "#443d5b",
+    backgroundColor: "#fff",
+    padding: "5px 10px",
+    fontWeight: "bold",
+    zIndex: 1,
+    [theme.breakpoints.down("sm")]: {
+      top: "10%",
+      left: "1%",
+    },
   },
 }));
 const projects = [
   {
-    image: project2,
+    image: project1,
     alt: "Project 1",
     title: "Project Title 1 ",
     description: "Vivamus imperdiet hendreit leo quis fringilla",
     info: "Vivamus imperdiet hendrerit leo quis fringilla. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend leo sit amet rutrum pulvinar. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi aliquam mauris sed ante laoreet, a luctus nunc finibus. Quisque quis neque enim. In facilisis posuere elementum. Morbi eu odio bibendum, pretium velit in, feugiat mi. Cras gravida neque in enim tempus pretium. Maecenas sodales vestibulum eros at consectetur. Donec nisi tortor, malesuada sed pretium nec, faucibus ut velit. Sed congue tempor orci, id suscipit tortor semper",
   },
   {
-    image: project1,
+    image: project2,
     alt: "Project 2",
     title: "Project Title 2 ",
     description: "Vivamus imperdiet hendreit leo quis fringilla",
     info: "Vivamus imperdiet hendrerit leo quis fringilla. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend leo sit amet rutrum pulvinar. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi aliquam mauris sed ante laoreet, a luctus nunc finibus. Quisque quis neque enim. In facilisis posuere elementum. Morbi eu odio bibendum, pretium velit in, feugiat mi. Cras gravida neque in enim tempus pretium. Maecenas sodales vestibulum eros at consectetur. Donec nisi tortor, malesuada sed pretium nec, faucibus ut velit. Sed congue tempor orci, id suscipit tortor semper",
   },
+
   {
     image: project3,
     alt: "Project 3",
@@ -42,15 +60,15 @@ const projects = [
     info: "Vivamus imperdiet hendrerit leo quis fringilla. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend leo sit amet rutrum pulvinar. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi aliquam mauris sed ante laoreet, a luctus nunc finibus. Quisque quis neque enim. In facilisis posuere elementum. Morbi eu odio bibendum, pretium velit in, feugiat mi. Cras gravida neque in enim tempus pretium. Maecenas sodales vestibulum eros at consectetur. Donec nisi tortor, malesuada sed pretium nec, faucibus ut velit. Sed congue tempor orci, id suscipit tortor semper",
   },
   {
-    image: project1,
+    image: project2,
     alt: "Project 4",
     title: "Project Title 4",
     description: "Vivamus imperdiet hendreit leo quis fringilla",
     info: "Vivamus imperdiet hendrerit leo quis fringilla. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend leo sit amet rutrum pulvinar. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi aliquam mauris sed ante laoreet, a luctus nunc finibus. Quisque quis neque enim. In facilisis posuere elementum. Morbi eu odio bibendum, pretium velit in, feugiat mi. Cras gravida neque in enim tempus pretium. Maecenas sodales vestibulum eros at consectetur. Donec nisi tortor, malesuada sed pretium nec, faucibus ut velit. Sed congue tempor orci, id suscipit tortor semper",
   },
 ];
-function NextArrow(props) {
-  const { style, onClick } = props;
+
+function NextArrow({ style, onClick }) {
   return (
     <Button
       style={{
@@ -70,8 +88,7 @@ function NextArrow(props) {
   );
 }
 
-function PrevArrow(props) {
-  const { style, onClick } = props;
+function PrevArrow({ style, onClick }) {
   return (
     <Button
       style={{
@@ -91,10 +108,14 @@ function PrevArrow(props) {
     </Button>
   );
 }
-function Projects(props) {
+
+function Projects({ onClick }) {
   const [activeProjectIndex, setActiveProjectIndex] = useState(1);
+  const [activeModalIndex, setActiveModalIndex] = useState(1);
+  const { slickGoTo } = Slider;
+  const [open, setOpen] = React.useState(false);
+  const lengthProjects = projects.length;
   const classes = useStyles();
-  const { onClick } = props;
   const responsive = [
     {
       breakpoint: 1024,
@@ -104,6 +125,7 @@ function Projects(props) {
         infinite: true,
         dots: true,
         initialSlide: 0,
+        accessibility: true,
       },
     },
     {
@@ -112,9 +134,23 @@ function Projects(props) {
         slidesToShow: 1,
         slidesToScroll: 1,
         initialSlide: 1,
+        infinite: true,
+        dots: true,
+        initialSlide: 1,
+        useCSS: true,
       },
     },
   ];
+
+  const handleOpen = (index) => {
+    setOpen(true);
+    setActiveModalIndex(activeProjectIndex);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const settings = {
     dots: false,
     infinite: true,
@@ -122,32 +158,61 @@ function Projects(props) {
     slidesToShow: 3,
     slidesToScroll: 1,
     responsive: responsive,
-    afterChange: (index) => setActiveProjectIndex(index + 1),
+    afterChange: (index) => {
+      setActiveProjectIndex(index + 1);
+      setActiveModalIndex(index + 1);
+    },
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
   };
-
+  console.log(activeModalIndex);
   return (
     <section id="Projects">
       <div className={classes.root}>
+        <h2 className={classes.title}>projects</h2>
         <Slider {...settings}>
           {projects.map((project, index) => (
-            <Grid container>
-              <div key={index} className={classes.slide}>
+            <Grid container key={index}>
+              <div className={classes.slide}>
                 <Project
-                  onclick={onClick}
                   info={project.info}
-                  isActive={activeProjectIndex === index}
+                  isActive={
+                    activeProjectIndex === projects.length
+                      ? activeProjectIndex - projects.length === index
+                      : activeProjectIndex === index
+                  }
                   title={project.title}
                   alt={project.alt}
                   image={project.image}
                   description={project.description}
+                  handleOpen={() => handleOpen(index + 1)}
                 />
               </div>
             </Grid>
           ))}
         </Slider>
       </div>
+      <Modal
+        className={classes.modal}
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <ModalProject
+          setActiveModalIndex={setActiveModalIndex}
+          slickGoTo={slickGoTo}
+          handleClose={handleClose}
+          lengthProjects={lengthProjects}
+          title={projects[activeModalIndex].title}
+          info={projects[activeModalIndex].info}
+          image={projects[activeModalIndex].image}
+          onclick={onClick}
+        />
+      </Modal>
     </section>
   );
 }

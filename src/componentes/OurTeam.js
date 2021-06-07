@@ -8,13 +8,14 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 20,
+    paddingTop: 100,
+    position: "relative",
   },
   paper: {
     background: "red",
   },
   card: {
-    maxWidth: 200,
+    maxWidth: 400,
     height: "100%",
     display: "flex",
     justifyContent: "space-between",
@@ -35,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
   },
-  title: {
+  cardTitle: {
     fontSize: 22,
     fontWeight: 600,
     color: "#443d5b",
@@ -43,6 +44,19 @@ const useStyles = makeStyles((theme) => ({
   subtitle: {
     fontWeight: 400,
     color: "#443d5b",
+  },
+  title: {
+    position: "absolute",
+    top: "8%",
+    left: "1%",
+    color: "#443d5b",
+    backgroundColor: "#fff",
+    padding: "5px 10px",
+    fontWeight: "bold",
+    [theme.breakpoints.down("sm")]: {
+      top: "2%",
+      left: "1%",
+    },
   },
   paragraphStyle: { color: "#443d5b" },
 }));
@@ -84,6 +98,7 @@ function OurTeam() {
   return (
     <section id="Team">
       <div className={classes.root}>
+        <h2 className={classes.title}>our team</h2>
         <Grid container align="center" justify="center">
           {team.map((team, index) => (
             <Grid item key={index} xs={12} md={6} lg={2}>
@@ -95,7 +110,7 @@ function OurTeam() {
                 </div>
 
                 <CardContent>
-                  <h3 className={classes.title}>{team.title}</h3>
+                  <h3 className={classes.cardTitle}>{team.title}</h3>
                   <h4 className={classes.subtitle}>{team.subtitle}</h4>
                   <p className={classes.paragraphStyle}>{team.description}</p>
                 </CardContent>
