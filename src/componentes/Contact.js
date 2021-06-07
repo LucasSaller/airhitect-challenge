@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     background: "#443d5b",
     position: "relative",
+    [theme.breakpoints.down("sm")]: {
+      paddingTop: 100,
+    },
   },
   contact: {
     display: "flex",
@@ -96,7 +99,7 @@ const formFields = [
     fullWidth: true,
   },
 ];
-function Contact() {
+function Contact({ contactRef }) {
   const classes = useStyles();
   useEffect(() => {
     const callGoogleApi = async () => {
@@ -118,7 +121,7 @@ function Contact() {
     callGoogleApi();
   }, []);
   return (
-    <section id="Contact">
+    <section id="Contact" ref={contactRef}>
       <div className={classes.root}>
         <h2 className={classes.title}>contact</h2>
 
@@ -152,16 +155,16 @@ function Contact() {
               </Grid>
               <Grid item className={classes.content} xs={12} lg={6}>
                 <div className={classes.socialIcons}>
-                  <a href="#">
+                  <a href="www.facebook.com">
                     <FacebookIcon />
                   </a>
-                  <a href="#">
+                  <a href="www.instagram.com">
                     <InstagramIcon />
                   </a>
-                  <a href="#">
+                  <a href="www.linkedin.com">
                     <LinkedInIcon />
                   </a>
-                  <a href="#">
+                  <a href="www.twitter.com">
                     <TwitterIcon />
                   </a>
                 </div>

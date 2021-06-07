@@ -12,7 +12,7 @@ import Popper from "@material-ui/core/Popper";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
 import { makeStyles } from "@material-ui/core/styles";
-import { Link, animateScroll as scroll } from "react-scroll";
+import { Link } from "react-scroll";
 import elipse1 from "../assets/Home/elipse1.png";
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -28,9 +28,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
-  menuButton: {
-    display: "flex",
-  },
+
   menu: {
     minWidth: 200,
     marginTop: 10,
@@ -77,21 +75,22 @@ const menuItems = [
     section: "Contact",
   },
 ];
-function Header() {
+function Header({ contactRef }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [isDarkLogo, setIsDarkLogo] = React.useState(true);
   const anchorRef = React.useRef(null);
   useEffect(() => {
+    if (!contactRef.current) return;
     const listenScrollEvent = () => {
-      if (window.scrollY > document.querySelector("#Contact").offsetTop - 40)
+      if (window.scrollY > contactRef.current.offsetTop - 40)
         setIsDarkLogo(false);
       else setIsDarkLogo(true);
     };
     window.addEventListener("scroll", listenScrollEvent);
 
     return () => window.removeEventListener("scroll", listenScrollEvent);
-  }, []);
+  }, [contactRef]);
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
@@ -169,7 +168,6 @@ function Header() {
                             to={menuItem.section}
                             spy={true}
                             smooth={true}
-                            offset={-70}
                             duration={500}
                           >
                             <MenuItem key={index} onClick={handleClose}>
@@ -186,11 +184,17 @@ function Header() {
           </div>
         </div>
 
-        <img src={isDarkLogo ? logo : logoWhite} />
-        <Link to="Contact" spy={true} smooth={true} offset={-70} duration={500}>
+        <Link to="Home" spy={true} smooth={true} offset={-70} duration={500}>
+          <img
+            alt="logo"
+            src={isDarkLogo ? logo : logoWhite}
+            style={{ cursor: "pointer" }}
+          />
+        </Link>
+        <Link to="Contact" spy={true} smooth={true} duration={500}>
           <Button variant="contained" className={classes.contactMenuButton}>
-            <img src={elipse1} />
-            <img src={elipse1} style={{ marginLeft: -10 }} />
+            <img src={elipse1} alt="" />
+            <img src={elipse1} alt="" style={{ marginLeft: -10 }} />
             contact
           </Button>
         </Link>

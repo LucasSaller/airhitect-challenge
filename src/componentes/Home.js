@@ -1,6 +1,5 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Header from "../componentes/Header";
 import backgroundImage from "../assets/background-home.png";
 import { Grid } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
@@ -44,7 +43,6 @@ function Home() {
   return (
     <section id="Home">
       <div className={classes.root}>
-        <Header />
         <div className={classes.content}>
           <Grid
             container

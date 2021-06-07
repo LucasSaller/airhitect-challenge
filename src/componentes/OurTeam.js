@@ -1,7 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import avatar from "../assets/avatar.png";
-import { Avatar, Card, Grid, CardContent, Typography } from "@material-ui/core";
+import { Avatar, Card, Grid, CardContent } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   root: {
     minHeight: "100vh",

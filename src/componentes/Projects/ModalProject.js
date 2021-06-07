@@ -1,4 +1,4 @@
-import { Button, Grid, Paper } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import nextArrow from "../../assets/Projects/next.png";
@@ -76,7 +76,7 @@ function ModalProject({
           lg={8}
           style={{ position: "relative", height: "100%" }}
         >
-          <img className={classes.image} src={image} />
+          <img className={classes.image} src={image} alt="" />
 
           <Button
             className={classes.buttonPrev}
@@ -86,7 +86,7 @@ function ModalProject({
               )
             }
           >
-            <img src={prevArrow} />
+            <img src={prevArrow} alt="prev" />
           </Button>
           <Button
             className={classes.buttonNext}
@@ -96,7 +96,7 @@ function ModalProject({
               )
             }
           >
-            <img src={nextArrow} />
+            <img src={nextArrow} alt="next" />
           </Button>
         </Grid>
         <Grid item xs={12} lg={4} className={classes.content}>

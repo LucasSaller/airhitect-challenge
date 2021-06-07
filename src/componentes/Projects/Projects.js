@@ -83,7 +83,7 @@ function NextArrow({ style, onClick }) {
       }}
       onClick={onClick}
     >
-      <img src={nextArrow} />
+      <img src={nextArrow} alt="next" />
     </Button>
   );
 }
@@ -104,7 +104,7 @@ function PrevArrow({ style, onClick }) {
       }}
       onClick={onClick}
     >
-      <img src={prevArrow} />
+      <img src={prevArrow} alt="prev" />
     </Button>
   );
 }
@@ -136,7 +136,6 @@ function Projects({ onClick }) {
         initialSlide: 1,
         infinite: true,
         dots: true,
-        initialSlide: 1,
         useCSS: true,
       },
     },
@@ -165,7 +164,6 @@ function Projects({ onClick }) {
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
   };
-  console.log(activeModalIndex);
   return (
     <section id="Projects">
       <div className={classes.root}>
